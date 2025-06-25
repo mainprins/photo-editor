@@ -1,13 +1,14 @@
+import { Link } from "react-router-dom"
 
 const LandingPage = () => {
   return (
-    <div className='bg-teal-950 flex w-[100vw] h-[90vh] text-white'>
+    <div className='bg-teal-950 flex w-[100vw] h-[100vh] text-white'>
         <div id="left" className='flex flex-col gap-[2vh] md:w-1/2 justify-center h-full px-15'>
             <div id="top">
                 <h1 className='text-xl md:text-4xl tracking-wider font-semibold md:w-[20vw]'>Create your own version of the image.</h1>
             </div>
-            <p className='md:w-[30vw] wrap text-md'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum veniam aperiam maxime saepe expedita deserunt facere laborum corporis ratione optio? Praesentium officiis odit voluptates a repellat atque accusantium. Corporis tempore iusto odio.</p>
-            <button className='bg-linear-to-br from-amber-500 to-teal-600 text-white py-2 md:w-[20%] rounded-md hover:bg-linear-to-tl cursor-pointer transition-all duration-500'>Create Now</button>
+            <p className='md:w-[30vw] wrap text-md'>Edit your photos effortlessly with our powerful and easy-to-use online photo editor.</p>
+            <Link to={'/lists'}><button className='bg-amber-700 text-white py-2 md:w-[20%] rounded-md hover:bg-teal-600 cursor-pointer transition-colors duration-700'>Your Projects</button></Link>
         </div>
         <div id="right" className='hidden md:flex justify-center items-center md:w-1/2 h-full'>
            <figure className=" bg-linear-to-br from-teal-500 to-amber-500 w-[30vw] h-[30vw] rounded-t-full relative">
