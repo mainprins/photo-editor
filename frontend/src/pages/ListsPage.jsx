@@ -7,15 +7,15 @@ const ListsPage = () => {
 
     return (
         <>
-            <div className={`bg-teal-950 w-[100vw] h-[50vh] ${isPopupOpen ? "blur-3xl" : null}`}>
+            <div className={`bg-teal-950 w-[100vw] min-h-80 h-[50vh] ${isPopupOpen ? "blur-3xl" : null}`}>
                 <figure className='w-full h-full overflow-hidden relative'>
                     <img src="/colored.jpg" alt="coloredMan" className='w-[100%] h-[100%] opacity-30 object-cover' />
-                    <div className='bg-linear-to-b from-transparent to-teal-950 w-[100vw] h-[50vh] absolute top-0'></div>
+                    <div className='bg-linear-to-b from-transparent to-teal-950 w-[100vw] min-h-80 h-[50vh] absolute top-0'></div>
                     <h1 className='absolute bg-linear-to-r from-amber-400 to-teal-400 text-transparent bg-clip-text top-45 left-[28vw] font-bold text-4xl md:text-7xl tracking-widest'>YOUR PROJECTS.</h1>
                 </figure>
             </div>
             <div className={`bg-teal-950 ${isPopupOpen ? "blur-3xl" : null} w-[100vw] flex flex-wrap gap-4 justify-center p-8`}>
-                <div className='bg-stone-800 flex flex-col gap-4 p-8 w-[80vw] md:w-[40vw] h-[80vh] md:h-[60vh] rounded-xl'>
+                <div className='bg-stone-800 flex flex-col gap-4 p-8 w-[80vw] md:w-[40vw] h-[80vh] min-h-140 md:h-[60vh] rounded-xl'>
                     <figure className='bg-red-300 w-full h-[80%] rounded-xl relative'>
                         <div className='bg-linear-to-b from-transparent to-teal-950 w-full h-full absolute top-0'></div>
                         <img src="/personPhotifier.png" alt="thumbnail" className='w-full h-full object-cover' />
@@ -27,7 +27,7 @@ const ListsPage = () => {
                         <Pencil className='text-green-400 text-center h-full cursor-pointer hover:text-stone-700 transition-all duration-500' />
                     </div>
                 </div>
-                <div className='bg-stone-800 flex flex-col gap-4 p-8 w-[80vw] md:w-[40vw] h-[80vh] md:h-[60vh] rounded-xl'>
+                <div className='bg-stone-800 flex flex-col gap-4 p-8 w-[80vw] md:w-[40vw] h-[80vh] min-h-140 md:h-[60vh] rounded-xl'>
                     <figure className='bg-red-300 w-full h-[80%] rounded-xl relative'>
                         <div className='bg-linear-to-b from-transparent to-teal-950 w-full h-full absolute top-0'></div>
                         <img src="/personPhotifier.png" alt="thumbnail" className='w-full h-full object-cover' />
@@ -49,16 +49,18 @@ const ListsPage = () => {
             </div>
             {isPopupOpen && (
                 <>
-                    <div className='hidden fixed top-50 bg-black w-[50vw] h-[80vh] md:h-[60vh] md:flex flex-col gap-6 justify-center items-center left-90 rounded-xl p-8 text-white'>
+                    <div className='fixed top-50 bg-black w-[80vw] min-h-90 h-[60vh] md:h-[60vh] flex flex-col gap-6 justify-center items-center left-10 md:left-30 rounded-xl p-8 text-white'>
                         <h1 className='bg-linear-to-r text-center from-amber-400 to-teal-400 text-transparent bg-clip-text font-bold text-4xl tracking-widest'>Create New Project</h1>
                         <form action="" className='flex flex-col items-center gap-6'>
                             <input type="text" placeholder='Enter Project Name' name="" id="" className='p-3 outline-none' />
                             <input type="text" placeholder='Enter Project Genre' name="" id="" className='p-3 outline-none' />
                             <button className='p-2 bg-teal-300 text-black hover:bg-amber-200 cursor-pointer transition-all duration-500 tracking-wider rounded-xl'>Create</button>
+                            <button onClick={()=> setIsPopupOpen(false)} className='p-2 bg-red-400 text-black hover:bg-red-200 cursor-pointer transition-all duration-500 tracking-wider rounded-xl'>Cancel</button>
                         </form>
+                         
                     </div>
-                    <button onClick={() => setIsPopupOpen(false)} className='hidden fixed w-[3vw] md:flex justify-center items-center h-[6vh] rounded-full text-center top-55 left-260 bg-amber-50 hover:bg-stone-500 cursor-pointer'><Minimize2 /></button>
-                    
+                  
+
 
                 </>
             )}
