@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
   return (
 
-    <nav className='w-[100vw] fixed top-0 h-[10vh] z-30 shadow-lg bg-white/5 backdrop-blur-3xl flex justify-between items-center px-4 md:px-8 xl:px-12 2xl:px-16'>
+    <nav className='w-[100vw] fixed top-0 h-[10vh] min-h-15 z-30 shadow-lg bg-white/5 backdrop-blur-3xl flex justify-between items-center px-4 md:px-8 xl:px-12 2xl:px-16'>
       <div id="left" className='flex gap-2 cursor-pointer'>
         <Aperture className='text-amber-400' size={30} />
         <span className='tracking-widest font-bold text-xl text-white'>PHO<span className='text-amber-400'>TI</span>FIER<span className='text-amber-400'>.</span></span>
