@@ -1,18 +1,16 @@
 
-import { Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
+import { Outlet,useNavigation } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import ListsPage from "./pages/ListsPage";
+import {ClipLoader} from "react-spinners"
 
 function App() {
+
+  const navigation = useNavigation();
   
   return (
     <>
       <Navbar/>
-      <Routes>
-        <Route path="/" element={<LandingPage/>}/>
-        <Route path="/lists" element={<ListsPage/>}/>
-      </Routes>
+      {navigation.state == "loading" ? <h1>Loading ...</h1> : <Outlet/> }
     </>
   )
 }
