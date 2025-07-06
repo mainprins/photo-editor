@@ -7,15 +7,15 @@ const signup = async (req, res) => {
     try {
         const { fullname, email, password } = req.body;
         if (!fullname || !email || !password) {
-            return res.json({ error: "Required fields cannot be empty." })
+            return res.status(400).json({ error: "Required fields cannot be empty." })
         }
         const user = await userModel.findOne({ email: email });
         if (user) {
-            return res.json({ error : "User already exists." })
+            return res.status(400).json({ error : "User already exists." })
         }
 
         if(password.length < 7){
-            return res.json({ error : "Password must be atleast 7 characters long." })
+            return res.status(400).json({ error : "Password must be atleast 7 characters long." })
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -32,7 +32,7 @@ const signup = async (req, res) => {
         res.cookie('token',token,{
             httpOnly:true,
             maxAge:3600000,
-            secure:true,
+            secure: process.env.NODE_ENV == "production",
             sameSite:'strict',
         });
 
@@ -63,7 +63,7 @@ const login = async (req,res)=>{
         }
         const user = await userModel.findOne({email:email});
         if(!user){
-            return res.json({error: "Either your email or password is incorrect."})
+            return res.status(400).json({error: "Either your email or password is incorrect."})
         }
 
         const isMatch = await bcrypt.compare(password,user.password);
@@ -73,7 +73,7 @@ const login = async (req,res)=>{
 
         const token = await jwt.sign({id:user._id,email:user.email},process.env.JWT_SECRET,{expiresIn:'1h'})
         res.cookie('token',token,{
-            secure:true,
+            secure: process.env.NODE_ENV == "production",
             httpOnly:true,
             maxAge:3600000,
             sameSite:'strict',

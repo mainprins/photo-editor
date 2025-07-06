@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter,RouterProvider} from 'react-router-dom'
 import './index.css'
+import { Toaster } from 'react-hot-toast';
 import App from './App.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 import ListsPage from './pages/ListsPage.jsx'
@@ -37,5 +38,6 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
      <RouterProvider router={router} />
+     <Toaster position='top-center'/>
   </StrictMode>,
 )

@@ -7,18 +7,21 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 
-mongoose.connect(process.env.MONGODB_URI).then(()=>{
+mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log("Successfully connected to mongodb.");
 }).catch(error => {
-    console.log("Mongodb connection error : ",error); 
+    console.log("Mongodb connection error : ", error);
 });
 
 
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 app.use(express.json());
-app.use(cors());
-app.use(express.urlencoded({extended:true}));
-app.use('/api/auth',authRouter);
+app.use(express.urlencoded({ extended: true }));
+app.use('/api/auth', authRouter);
 
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT, () => {
     console.log(`Listening at port ${process.env.PORT}`);
 });
