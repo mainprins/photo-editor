@@ -38,7 +38,12 @@ const signup = async (req, res) => {
 
          await newUser.save();
 
-        res.status(201).json({ message: "New user created successfully" })
+        const userResponse = {
+            id:newUser._id,
+            email:newUser.email,
+            fullname:newUser.fullname,
+        }
+        res.status(201).json({ message: "New user created successfully" ,authUser:userResponse})
     } catch(error) {
          console.error("Error in signup controller : ",error);
          res.status(500).json({error: "Internal Server Error."});
@@ -48,7 +53,7 @@ const signup = async (req, res) => {
 const logout = (req,res)=>{
     try {
         res.clearCookie('token');
-        res.status(200).json({ message: 'Logged out successfully' });
+        res.status(200).json({ message: 'Logged out successfully',authUser:null });
     } catch (error) {
         console.error("Error in logout controller : ",error);
         res.status(500).json({error: "Internal Server Error."});
@@ -79,7 +84,12 @@ const login = async (req,res)=>{
             sameSite:'strict',
         });
 
-        res.status(200).json({message:"Logged in successfully."});
+        const userResponse = {
+            id:user._id,
+            email:user.email,
+            fullname:user.fullname,
+        }
+        res.status(200).json({message:"Logged in successfully.",authUser:userResponse});
 
     } catch (error) {
         console.error("Error in Login controller : ",error);
