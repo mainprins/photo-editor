@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import {createBrowserRouter,RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './index.css'
 import { Toaster } from 'react-hot-toast';
 import App from './App.jsx'
@@ -20,24 +20,31 @@ const router = createBrowserRouter([
       },
       {
         path: "/lists",
+        loader: () => {
+          const isAuth = localStorage.getItem("auth") === "true";
+          if (!isAuth) {
+            throw new Response("Unauthorized", { status: 302, headers: { Location: "/" } });
+          }
+          return null;
+        },
         element: <ListsPage />,
       },
     ],
   },
   {
     path: "/login",
-    element: <LoginPage/>,
+    element: <LoginPage />,
   },
-   {
+  {
     path: "/signup",
-    element: <SignupPage/>,
+    element: <SignupPage />,
   },
 
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <RouterProvider router={router} />
-     <Toaster position='top-center'/>
+    <RouterProvider router={router} />
+    <Toaster position='top-center' />
   </StrictMode>,
 )

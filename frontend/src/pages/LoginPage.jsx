@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast";
+import {useAuth} from "../stores/useAuth.js"
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,6 +17,9 @@ const LoginPage = () => {
       const response = await axios.post('http://localhost:3000/api/auth/login', formData, { withCredentials: true });
       console.log("Login successful:", response.data);
       toast.success(response.data?.message);
+      localStorage.setItem('auth',"true");
+      navigate('/');
+      
     } catch (error) {
       console.error("Login failed:", error.response?.data?.error || error.message);
       toast.error(error.response?.data?.error);
