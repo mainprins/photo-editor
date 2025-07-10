@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const authRouter = require('./routes/auth.route.js')
+const projectRouter = require('./routes/project.route.js');
 const mongoose = require('mongoose');
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRouter);
+app.use('/api/project', projectRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Listening at port ${process.env.PORT}`);
