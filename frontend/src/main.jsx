@@ -8,6 +8,7 @@ import LandingPage from './pages/LandingPage.jsx'
 import ListsPage from './pages/ListsPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
+import EditPage from './pages/EditPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,17 @@ const router = createBrowserRouter([
         },
         element: <ListsPage />,
       },
+      {
+        path: "/edit/:id",
+        loader: () => {
+          const isAuth = localStorage.getItem("auth") === "true";
+          if (!isAuth) {
+            throw new Response("Unauthorized", { status: 302, headers: { Location: "/" } });
+          }
+          return null;
+        },
+        element: <EditPage />
+      }
     ],
   },
   {

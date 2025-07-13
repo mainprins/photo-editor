@@ -46,6 +46,10 @@ const ListsPage = () => {
         }
     }
 
+    const handleEdit = async(id)=>{
+        navigate(`/edit/${id}`)
+    }
+
     useEffect(() => {
         const fetch = async () => {
             await fetchProjects();
@@ -75,7 +79,7 @@ const ListsPage = () => {
                         <div className='w-full flex flex-col md:flex-row md:justify-between justify-center items-center gap-4'>
                             <Trash2 className='text-red-400 text-center h-full cursor-pointer hover hover:text-stone-700 transition-all duration-500' onClick={()=>{handleDeletion(project._id)}} />
                             <div className='bg-linear-to-l from-stone-900 to-amber-800 rounded-xl text-center text-white w-[70%] md:w-110 h-full py-2 text-md tracking-widest'>{project.projectname}</div>
-                            <Pencil className='text-green-400 text-center h-full cursor-pointer hover:text-stone-700 transition-all duration-500' />
+                            <Pencil className='text-green-400 text-center h-full cursor-pointer hover:text-stone-700 transition-all duration-500' onClick={()=>{handleEdit(project._id)}} />
                         </div>
                     </div>
                 )) : <div className='text-white w-full p-8 flex justify-center items-center text-center'>No projects found.</div>
