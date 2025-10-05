@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import { ClipLoader } from "react-spinners"
 import axios from "axios";
 import { useEffect } from "react";
+import 'react-image-crop/dist/ReactCrop.css'
 
 function App() {
 
