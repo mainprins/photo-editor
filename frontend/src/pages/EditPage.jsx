@@ -3,8 +3,12 @@ import { Canvas, CircleBrush, FabricImage, FabricText, filters, PatternBrush, Pe
 import { Brush, Contrast, Crop, Download, Droplets, EyeOff, Gem, Image, ImagePlus, Layers2, Sparkles, Sun, Trash, Type } from 'lucide-react';
 import toast from "react-hot-toast"
 import ReactCrop from 'react-image-crop';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const EditPage = () => {
+  const { id } = useParams();
+  const [projectData, setProjectData] = useState(null);
   const [textColor, setTextColor] = useState("#000");
   const [activeBeforeCrop, setActiveBeforeCrop] = useState(null);
   const [isEligible, setIsEligible] = useState(false);
@@ -12,7 +16,7 @@ const EditPage = () => {
   const [chooseBrush, setChooseBrush] = useState(false);
   const [isCropping, setIsCropping] = useState(false);
   const [crop, setCrop] = useState({
-    unit: 'px', // <--- use 'px' instead of '%'
+    unit: 'px',
     x: 0,
     y: 0,
     width: 100,
@@ -66,6 +70,45 @@ const EditPage = () => {
 
   }, [canvas])
 
+  useEffect(() => {
+    if (projectData) {
+      setIsEligible(true);
+    }
+  }, [projectData])
+
+  useEffect(() => {
+    if (canvas && projectData) {
+      canvas.loadFromJSON(projectData, () => {
+        setTimeout(() => {
+          canvas.renderAll();
+          console.log("Project Loaded into canvas successfully.")
+        }, 50);
+      });
+    }
+  }, [projectData, canvas])
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/project/getProjects", { withCredentials: true });
+        const allProjects = res.data.projects;
+
+        const project = allProjects.find(p => p._id === id);
+        if (!project) {
+          console.log("Project not found");
+          return;
+        }
+
+        console.log("Found project:", project);
+        setProjectData(project.data);
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+      }
+    };
+
+
+    fetchProject();
+  }, [id]);
+
   const updateLayers = () => {
     if (!canvas) return;
     setLayers([...canvas.getObjects()].reverse());
@@ -77,6 +120,7 @@ const EditPage = () => {
     link.href = canvas.toDataURL();
     link.click();
   }
+
 
 
   const handleAddText = () => {
@@ -108,6 +152,21 @@ const EditPage = () => {
     initCanvas();
   }, [isEligible]);
 
+  const saveProject = async () => {
+    try {
+      const json = canvas.toJSON();
+
+      const res = await axios.post("http://localhost:3000/api/project/save", {
+        id: id,
+        data: json,
+      }, { withCredentials: true });
+
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error("Error while saving the project");
+    }
+  };
+
 
   useEffect(() => {
     if (canvas && addedImageFile) {
@@ -128,35 +187,31 @@ const EditPage = () => {
     }
   }, [canvas, addedImageFile]);
 
-useEffect(() => {
-  if (!canvas) return;
+  useEffect(() => {
+    if (!canvas) return;
 
-  if (isCropping) {
-    // Save the current active object
-    setActiveBeforeCrop(canvas.getActiveObject());
+    if (isCropping) {
+      setActiveBeforeCrop(canvas.getActiveObject());
 
-    // Disable interaction with all objects
-    canvas.selection = false;
-    canvas.forEachObject(obj => {
-      obj.selectable = false;
-      obj.evented = false;
-    });
+      canvas.selection = false;
+      canvas.forEachObject(obj => {
+        obj.selectable = false;
+        obj.evented = false;
+      });
 
-    // Keep the previously active object selected (no further interaction)
-    if (canvas.getActiveObject()) {
-      canvas.setActiveObject(canvas.getActiveObject());
+      if (canvas.getActiveObject()) {
+        canvas.setActiveObject(canvas.getActiveObject());
+      }
+
+    } else {
+      canvas.selection = true;
+      canvas.forEachObject(obj => {
+        obj.selectable = true;
+        obj.evented = true;
+      });
+
     }
-
-  } else {
-    // Restore interactions
-    canvas.selection = true;
-    canvas.forEachObject(obj => {
-      obj.selectable = true;
-      obj.evented = true;
-    });
-
-  }
-}, [isCropping, canvas]);
+  }, [isCropping, canvas]);
 
 
   useEffect(() => {
@@ -224,10 +279,10 @@ useEffect(() => {
         </div>
 
         <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseLayer(true) }}><Layers2 className='bg-teal-500 rounded-full p-1' /><span>Adjust Layers</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3'><Sun className='bg-teal-500 rounded-full p-1' /><span>Adjust</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3'><Gem className='bg-teal-500 rounded-full p-1' /><span>Add Graphics</span></div>
         <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { clearAll() }}><Trash className='bg-teal-500 rounded-full p-1' /><span>Clear All</span></div>
         <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { downloadImage() }}><Download className='bg-teal-500 rounded-full p-1' /><span>Save Image</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { saveProject() }}><Download className='bg-teal-500 rounded-full p-1' /><span>Save Project</span></div>
+
 
       </div>
       <div id="right" className='w-[100%] h-[90vh] flex relative items-center justify-center'>
@@ -526,7 +581,6 @@ useEffect(() => {
                 const activeObj = activeBeforeCrop;
                 if (!activeObj || activeObj.type !== "image") return;
 
-                // Save original position and transformations
                 const prevLeft = activeObj.left;
                 const prevTop = activeObj.top;
                 const originX = activeObj.originX;
@@ -535,16 +589,16 @@ useEffect(() => {
                 const scaleY = activeObj.scaleY;
                 const angle = activeObj.angle;
 
-                // Remove the original image
+
                 canvas.remove(activeObj);
 
                 const image = cropImageRef.current;
 
-                // Compute scale between displayed image and natural image
+
                 const scaleWidth = image.naturalWidth / image.width;
                 const scaleHeight = image.naturalHeight / image.height;
 
-                // Create canvas for cropped image
+
                 const newCanvas = document.createElement("canvas");
                 newCanvas.width = crop.width * scaleWidth;
                 newCanvas.height = crop.height * scaleHeight;
@@ -562,10 +616,8 @@ useEffect(() => {
                   crop.height * scaleHeight
                 );
 
-                // Create new Fabric image from cropped canvas
                 const img = new FabricImage(newCanvas);
 
-                // Set position and transformations same as original
                 img.set({
                   left: prevLeft,
                   top: prevTop,
@@ -576,7 +628,6 @@ useEffect(() => {
                   angle
                 });
 
-                // Add to canvas and render
                 canvas.add(img);
                 canvas.setActiveObject(img);
                 canvas.requestRenderAll();
@@ -594,7 +645,7 @@ useEffect(() => {
             <button
               className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-800"
               onClick={() => {
-                    setIsCropping(false);
+                setIsCropping(false);
               }}
             >
               Cancel

@@ -42,4 +42,29 @@ const deleteProject = async (req, res) => {
     }
 }
 
-module.exports = { createProject, getProjects , deleteProject };
+const saveProject = async (req, res) => {
+    try {
+        const { id, data } = req.body;
+
+        if (!id || !data) {
+            return res.status(400).json({ error: "Project ID and data are required." });
+        }
+
+        const project = await projectModel.findOneAndUpdate(
+            { _id: id, userId: req.user?._id }, 
+            { data },
+            { new: true } 
+        );
+
+        if (!project) {
+            return res.status(404).json({ error: "Project not found." });
+        }
+
+        res.status(200).json({ message: "Project saved successfully.", project });
+    } catch (error) {
+        console.error("Error in saveProject controller:", error);
+        res.status(500).json({ error: "Internal Server Error." });
+    }
+};
+
+module.exports = { createProject, getProjects , deleteProject , saveProject };
