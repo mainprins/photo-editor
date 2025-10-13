@@ -43,8 +43,8 @@ const EditPage = () => {
     if (canvasRef.current && isEligible) {
 
       const mycanvas = new Canvas(canvasRef.current, {
-        width: canvasRef.current.parentElement.clientWidth,
-        height: canvasRef.current.parentElement.clientHeight,
+        width: 1000,
+        height: 1000,
       });
 
       mycanvas.backgroundColor = '#002728';
@@ -254,14 +254,14 @@ const EditPage = () => {
   };
 
   return (
-    <div className='w-[100vw] h-[100vh] flex pt-[10vh]'>
-      <div id='left' className='bg-teal-100 w-[15vw] h-[90vh] p-3 flex flex-col gap-3'>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseText(true) }}><Type className='bg-teal-500 rounded-full p-1' /><span>Add Text</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseFilter(true) }}><Sparkles className='bg-teal-500 rounded-full p-1' /><span>Add Filters</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseBrush(true) }}><Brush className='bg-teal-500 rounded-full p-1' /><span>Brushes</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseImage(true) }}><Image className='bg-teal-500 rounded-full p-1' /><span>Add Image</span></div>
+    <div className='w-[100vw] h-[100vh] overflow-hidden flex flex-col md:flex-row pt-[10vh]'>
+      <div id='left' className='bg-teal-100 md:w-[15vw] w-[100vw] h-max  md:h-[90vh] p-3 flex flex-wrap flex-row md:flex-col gap-3'>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseText(true) }}><Type className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Add Text</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseFilter(true) }}><Sparkles className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Add Filters</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseBrush(true) }}><Brush className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Brushes</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseImage(true) }}><Image className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Add Image</span></div>
         <div
-          className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3'
+          className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3'
           onClick={() => {
             if (canvas) {
               const activeObj = canvas.getActiveObject();
@@ -275,18 +275,18 @@ const EditPage = () => {
 
         >
           <Crop className='bg-teal-500 rounded-full p-1' />
-          <span>Crop Image</span>
+          <span className='hidden md:block'>Crop Image</span>
         </div>
 
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseLayer(true) }}><Layers2 className='bg-teal-500 rounded-full p-1' /><span>Adjust Layers</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { clearAll() }}><Trash className='bg-teal-500 rounded-full p-1' /><span>Clear All</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { downloadImage() }}><Download className='bg-teal-500 rounded-full p-1' /><span>Save Image</span></div>
-        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[90%] justify-around rounded-xl p-3' onClick={() => { saveProject() }}><Download className='bg-teal-500 rounded-full p-1' /><span>Save Project</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { isEligible && setChooseLayer(true) }}><Layers2 className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Adjust Layers</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { clearAll() }}><Trash className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Clear All</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { downloadImage() }}><Download className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Save Image</span></div>
+        <div className='flex bg-teal-800 text-white hover:bg-teal-950 cursor-pointer transition-all duration-500 w-[20vw] md:w-[90%] justify-around rounded-xl p-3' onClick={() => { saveProject() }}><Download className='bg-teal-500 rounded-full p-1' /><span className='hidden md:block'>Save Project</span></div>
 
 
       </div>
-      <div id="right" className='w-[100%] h-[90vh] flex relative items-center justify-center'>
-        {isEligible ? <canvas ref={canvasRef} className='w-full h-full' /> :
+      <div id="right" className='w-[100vw] overflow-scroll h-auto flex relative items-center justify-center'>
+        {isEligible ? <canvas ref={canvasRef} className='w-auto h-full' /> :
           <form>
             <label className='p-4 flex bg-teal-600 rounded-xl gap-3 hover:bg-teal-800 cursor-pointer transition-all duration-500'>
               <input type="file" accept='image/*' onChange={handleImageUpload} className='hidden' name="" id="" />
@@ -297,8 +297,8 @@ const EditPage = () => {
 
       </div>
       {chooseText && (
-        <div className='fixed min-w-150 min-h-100 bg-linear-to-bl from-black to-teal-950 top-50 left-140 rounded-xl flex flex-col gap-6 justify-center items-center'>
-          <span className='text-white font-bold tracking-widest text-3xl'>Add Text</span>
+        <div className='fixed min-w-100 md:min-w-150 min-h-100 bg-linear-to-bl from-black to-teal-950 top-50 sm:left-20 md:left-140 rounded-xl flex flex-col gap-6 justify-center items-center'>
+          <span className='text-white font-bold tracking-widest text-xl md:text-3xl'>Add Text</span>
           <input type="text" className='min-w-10 min-h-10 bg-stone-700 rounded-xl p-3 outline-0 text-white' placeholder='Enter the text' onChange={(e) => { setAddedText(e.target.value) }} />
           <input type="color" value={textColor} onChange={(e) => { setTextColor(e.target.value) }} />
           <button className='p-3 bg-teal-500 min-w-20 hover:bg-black hover:ring-1 hover:ring-teal-500 text-white rounded-xl transition-all duration-500 cursor-pointer' onClick={handleAddText}>Add</button>
@@ -307,8 +307,8 @@ const EditPage = () => {
       )}
 
       {chooseImage && (
-        <div className='fixed min-w-150 min-h-100 bg-linear-to-bl from-black to-teal-950 top-50 left-140 rounded-xl flex flex-col gap-6 justify-center items-center'>
-          <span className='text-white font-bold tracking-widest text-3xl'>Add Image</span>
+        <div className='fixed min-w-100 md:min-w-150 min-h-100 bg-linear-to-bl from-black to-teal-950 top-50 sm:left-20 md:left-140 rounded-xl flex flex-col gap-6 justify-center items-center'>
+          <span className='text-white font-bold tracking-widest text-xl md:text-3xl'>Add Image</span>
           <label className='p-4 flex bg-teal-600 rounded-xl gap-3 hover:bg-teal-800 cursor-pointer transition-all duration-500'>
             <input type="file" accept='image/*' onChange={handleAddImage} className='hidden' name="" id="" />
             <div><ImagePlus /></div>
@@ -320,8 +320,8 @@ const EditPage = () => {
       )}
 
       {chooseBrush && (
-        <div className='fixed min-w-150 min-h-100 bg-gradient-to-bl from-black to-teal-950 top-50 left-140 rounded-xl flex flex-col gap-6 justify-center items-center p-6'>
-          <span className='text-white font-bold tracking-widest text-3xl'>Brush Settings</span>
+        <div className='fixed min-w-100 md:min-w-150 min-h-100 bg-gradient-to-bl from-black to-teal-950 top-50 sm:left-20 md:left-140 rounded-xl flex flex-col gap-6 justify-center items-center p-6'>
+          <span className='text-white font-bold tracking-widest text-xl md:text-3xl'>Brush Settings</span>
 
           <div className="flex gap-3 items-center">
             <span className="text-white">Color:</span>
@@ -441,8 +441,8 @@ const EditPage = () => {
       )}
 
       {chooseFilter && (
-        <div className='fixed min-w-150 min-h-100 bg-gradient-to-bl from-black to-teal-950 top-50 left-140 rounded-xl flex flex-col gap-6 justify-center items-center p-6'>
-          <span className='text-white font-bold tracking-widest text-3xl'>Image Filters</span>
+        <div className='fixed min-w-100 md:min-w-150 min-h-100 bg-gradient-to-bl from-black to-teal-950 top-50 sm:left-20 md:left-140 md left-50:md:left-140 rounded-xl flex flex-col gap-6 justify-center items-center p-6'>
+          <span className='text-white font-bold tracking-widest text-xl md:text-3xl'>Image Filters</span>
 
           <div className="grid grid-cols-2 gap-4">
             <button
@@ -551,7 +551,7 @@ const EditPage = () => {
 
 
       {chooseLayer && (
-        <div className='fixed min-w-150 min-h-100 bg-linear-to-bl from-black to-teal-950 top-50 left-140 rounded-xl flex flex-col gap-6 justify-center items-center'>
+        <div className='fixed min-w-100 md:min-w-150 min-h-100 bg-linear-to-bl from-black to-teal-950 top-50 sm:left-20 md:left-140 rounded-xl flex flex-col gap-6 justify-center items-center'>
           {layers.map((obj, index) => (
             <div key={index} className='flex gap-3 w-full justify-center items-center'>
               <span className='text-white'>Layer {index + 1} ({obj.type})</span>
